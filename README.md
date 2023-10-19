@@ -1,6 +1,6 @@
 # Laravel App Docker Skeleton
 
-## Remove `.git` directory
+## Init your own git repository
 
 Since it's just a starter template you need to init your own git repository:
 
