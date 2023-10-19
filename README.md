@@ -1,5 +1,13 @@
 # Laravel App Docker Skeleton
 
+## Remove `.git` directory
+
+Since it's just a starter template you need to init your own git repository:
+
+```bash
+rm -rf .git && git init .
+```
+
 ## Configure Docker Compose's .env file
 
 Create your own one from example:
