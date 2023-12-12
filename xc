@@ -36,6 +36,12 @@ action_up() {
     $COMPOSE up laravel --remove-orphans $@
 }
 
+action_down() {
+    shift 1
+
+    $COMPOSE down $@
+}
+
 action_install() {
     docker run --rm -it \
         -v "$(pwd)"/laravel:/var/www/html \
@@ -72,6 +78,9 @@ main() {
             ;;
             up)
                 action_up "$@"
+            ;;
+            down)
+                action_down "$@"
             ;;
             install)
                 action_install
