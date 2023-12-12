@@ -36,6 +36,12 @@ action_up() {
     $COMPOSE up laravel --remove-orphans $@
 }
 
+action_up_hmr() {
+    shift 1
+
+    $COMPOSE -f docker-compose.hmr.dev.yml up laravel hmr --remove-orphans $@
+}
+
 action_down() {
     shift 1
 
@@ -78,6 +84,9 @@ main() {
             ;;
             up)
                 action_up "$@"
+            ;;
+            uphmr)
+                action_up_hmr "$@"
             ;;
             down)
                 action_down "$@"

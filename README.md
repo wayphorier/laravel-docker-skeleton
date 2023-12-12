@@ -35,14 +35,15 @@ Set up your Laravel service domain, database name and credentials, etc.
 
 ## Start Docker services
 
-*with automatic assets compiling and frontend hot reloading:*
-```bash
-./xc -f docker-compose.hmr.dev.yml up
-```
-*without assets compiling and HMR:*
+Without assets compiling and HMR:
 
 ```bash
 ./xc up
+```
+
+With automatic assets compiling and frontend hot reloading *(see [HMR setup instructions](#section-hmr) below)*:
+```bash
+./xc uphmr
 ```
 
 You can use any of the docker compose commands parameters with `./xc`. For example, to run Laravel app in detached mode:
@@ -90,3 +91,39 @@ Your can run any Node.js command witn `./xc node {command}`. Note that `node` is
 ```bash
 ./xc node npm run build
 ```
+
+<a id="section-hmr"></a>
+
+## HMR (Hot Module Reloading) Setup
+
+### 1. Add `server.hmr.host` property to Laravel's Vite config:
+
+*laravel/vite.config.js*
+```js
+// ...
+
+export default defineConfig({
+    plugins: [
+        // ...
+    ],
+    server: {
+        hmr: {
+            host: "localhost", // or "your-local-domain.test"
+        },
+    },
+});
+```
+
+### 2. Add `@vite` directive to your Blade layout (e.g. before closing `head` tag):
+
+*laravel/resources/vuews/layouts/main.blade.php*
+```html
+<!doctype html>
+<head>
+    {{-- ... --}}
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+```
+
+Source: [Laravel 10.x docs: Loading Your Scripts And Styles](https://laravel.com/docs/10.x/vite#loading-your-scripts-and-styles)
