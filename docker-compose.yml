@@ -1,0 +1,16 @@
+name: ${APP_NAME}
+
+services:
+  traefik:
+    image: traefik:2.10
+
+  mysql:
+    image: mysql:8.0
+
+  laravel:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    depends_on:
+      - traefik
+      - mysql

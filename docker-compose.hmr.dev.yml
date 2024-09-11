@@ -1,0 +1,17 @@
+services:
+  # Assets compiling and Hot Module Reloading in development environment
+  hmr:
+    build:
+      context: .
+      dockerfile: dockerfiles/node.hmr.dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - target: 8083
+        published: 8083
+        mode: host
+    command: "npm run dev -- --host --port=8083"
+    depends_on:
+      - laravel
+    networks:
+      - development

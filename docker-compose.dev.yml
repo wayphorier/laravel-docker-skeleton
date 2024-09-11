@@ -1,0 +1,61 @@
+name: ${COMPOSE_PROJECT_NAME}
+
+services:
+  traefik:
+    command: --api.insecure=true --providers.docker
+    ports:
+      # Listen on port 80, default for HTTP
+      - target: 80
+        published: 80
+        mode: host
+      # Traefik UI
+      - target: 8080
+        published: 8080
+        mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - development
+
+  laravel:
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - target: 8082
+        published: 8082
+        mode: host
+    networks:
+      - development
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`${APP_URL}`)"
+    command: "php artisan serve --host=0.0.0.0 --port=8082"
+
+  mysql:
+    restart: unless-stopped
+    volumes:
+      - ./_dev/_volumes/mysql/database_data:/var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
+        mode: host
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - development
+
+  node:
+    image: node:20.2.0
+    volumes:
+      - ./laravel:/usr/src/app
+    working_dir: /usr/src/app/
+    networks:
+      - development
+
+networks:
+  development:
