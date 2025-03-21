@@ -3,13 +3,13 @@
 action_exec() {
     shift 1
 
-    $COMPOSE exec $@
+    $COMPOSE exec --user $(id -u):$(id -g) $@
 }
 
 action_artisan() {
     shift 1
 
-    $COMPOSE exec laravel php /var/www/html/artisan $@
+    $COMPOSE exec --user $(id -u):$(id -g) laravel php /var/www/html/artisan $@
 }
 
 action_composer() {
@@ -19,6 +19,7 @@ action_composer() {
         -v "$(pwd)":/var/www/html \
         --workdir /var/www/html \
         --entrypoint composer \
+        --user $(id -u):$(id -g) \
         composer:latest \
         --ignore-platform-reqs \
         $@
@@ -27,7 +28,7 @@ action_composer() {
 action_node() {
     shift 1
 
-    $COMPOSE run --rm node $@
+    $COMPOSE run --rm --user $(id -u):$(id -g) node $@
 }
 
 action_up() {
