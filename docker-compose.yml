@@ -2,7 +2,7 @@ name: ${APP_NAME}
 
 services:
   traefik:
-    image: traefik:2.10
+    image: traefik:v3.3
 
   mysql:
     image: mysql:8.0
