@@ -52,7 +52,7 @@ services:
   node:
     image: node:20.2.0
     volumes:
-      - ./laravel:/usr/src/app
+      - ./:/usr/src/app
     working_dir: /usr/src/app/
     networks:
       - development
