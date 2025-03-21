@@ -77,6 +77,9 @@ main() {
             exec)
                 action_exec "$@"
             ;;
+            a)
+                action_artisan "$@"
+            ;;
             artisan)
                 action_artisan "$@"
             ;;
