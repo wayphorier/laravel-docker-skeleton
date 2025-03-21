@@ -88,11 +88,22 @@ Your can run any Node.js command witn `./xc node {command}`. Note that `node` is
 
 export default defineConfig({
     plugins: [
-        // ...
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ],
+            refresh: true,
+        }),
     ],
     server: {
         hmr: {
-            host: "localhost", // or "your-local-domain.test"
+            host: 'localhost',
+            port: 8083,
+        },
+        watch: {
+            // Use this if you are in a WSL2 environment on Windows
+            usePolling: true,
         },
     },
 });
