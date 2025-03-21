@@ -12,6 +12,12 @@ action_artisan() {
     $COMPOSE exec --user $(id -u):$(id -g) laravel php /var/www/html/artisan $@
 }
 
+action_tinker() {
+    shift 1
+
+    $COMPOSE exec laravel php /var/www/html/artisan tinker
+}
+
 action_composer() {
     shift 1
 
